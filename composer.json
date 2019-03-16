@@ -1,0 +1,44 @@
+{
+  "name": "code4mk/kapi",
+  "description": "Kauth is laravel api jwt auth system",
+  "keywords": [
+    "jwt",
+    "jwt-auth",
+    "laravel",
+    "auth",
+    "code4mk",
+    "0devco",
+    "api",
+  ],
+  "homepage": "https://github.com/code4mk/kapi",
+  "support": {
+    "issues": "https://github.com/code4mk/kapi/issues",
+    "source": "https://github.com/code4mk/kapi"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "code4mk",
+      "email": "hiremostafa@gmail.com",
+      "website": "https://code4mk.org"
+    }
+  ],
+  "require": {
+    "gladcodes/keygen": "^1.1",
+    "barryvdh/laravel-cors": "^0.11.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kapi\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+        "providers": [
+            "Kapi\\KapiServiceProvider"
+        ]
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+}
