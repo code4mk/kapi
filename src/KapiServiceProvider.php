@@ -23,14 +23,15 @@ class KapiServiceProvider extends ServiceProvider
    */
    public function boot(\Illuminate\Routing\Router $router)
    {
-     // load database
-      $this->loadMigrationsFrom(
-        __DIR__.'/../migrations/'
-      );
-      // load config
-      $this->mergeConfigFrom(
-        __DIR__.'/../config/kapi.php','kapi'
-      );
+     // publish database
+      $this->publishes([
+       __DIR__.'/../migrations/' => database_path('migrations'),
+      ], 'migrations');
+      
+      // publish config
+       $this->publishes([
+        __DIR__ . '/../config/kapi.php' => config_path('kapi.php'),
+       ], 'config');
       //load alias
       AliasLoader::getInstance()->alias('Kapi', 'Kapi\Facades\Api');
       AliasLoader::getInstance()->alias('Koauth', 'Kapi\Facades\Oauth');
