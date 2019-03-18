@@ -27,10 +27,11 @@ class KapiServiceProvider extends ServiceProvider
       $this->publishes([
        __DIR__.'/../migrations/' => database_path('migrations'),
       ], 'migrations');
-      
+
       // publish config
        $this->publishes([
         __DIR__ . '/../config/kapi.php' => config_path('kapi.php'),
+        __DIR__ . '/../config/cors.php' => config_path('cors.php'),
        ], 'config');
       //load alias
       AliasLoader::getInstance()->alias('Kapi', 'Kapi\Facades\Api');

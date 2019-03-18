@@ -10,15 +10,31 @@ use Config;
 class ApiApp
 {
   protected $appType;
+  protected $isOutput = false;
+  protected $isPaginate = false;
+  protected $pagiNum;
+
 
   public function __construct()
   {
     $this->oauth('app');
-  }
 
+  }
   public function oauth($status = 'oauth')
   {
     $this->appType = $status;
+    return $this;
+  }
+
+  public function output()
+  {
+    $this->isOutput = true;
+    return $this;
+  }
+  public function paginate($num=15)
+  {
+    $this->isPaginate = true;
+    $this->pagiNum = $num;
     return $this;
   }
 
@@ -44,6 +60,10 @@ class ApiApp
     if ($this->appType === 'oauth') {
       $apiApp->osecret = Keygen::bytes(30)->hex()->generate() . 'kapi' . $apiApp->id;
       $apiApp->save();
+    }
+
+    if($this->isOutput === true){
+      return $apiApp;
     }
 
   }
@@ -83,6 +103,12 @@ class ApiApp
 
   public function showAuthUserApps($userID)
   {
+    if($this->isPaginate){
+      $UserApiApp = ApiModel::where('user',$userID)
+                          ->where('app_type','app')
+                          ->paginate($this->pagiNum);
+      return $UserApiApp;
+    }
     $UserApiApp = ApiModel::where('user',$userID)
                         ->where('app_type','app')
                         ->get();
@@ -91,6 +117,12 @@ class ApiApp
 
   public function showAuthUserOauth($userID)
   {
+    if($this->isPaginate){
+      $UserApiAppOauth = ApiModel::where('user',$userID)
+                          ->where('app_type','oauth')
+                          ->paginate($this->pagiNum);
+      return $UserApiAppOauth;
+    }
     $UserApiAppOauth = ApiModel::where('user',$userID)
                         ->where('app_type','oauth')
                         ->get();
@@ -127,22 +159,24 @@ class ApiApp
   {
     $apiApp = ApiModel::where('id',$appID)
                       ->where('user',$authUserID)
-                      ->first();
-    $apiApp->active = true;
-    $apiApp->save();
+                      ->update(['active'=> true]);
   }
 
   public function deactiveApp($appID, $authUserID)
   {
     $apiApp = ApiModel::where('id',$appID)
                       ->where('user',$authUserID)
-                      ->first();
-    $apiApp->active = false;
-    $apiApp->save();
+                      ->update(['active'=> false]);
   }
 
   public function apiAppApproval()
   {
+    if($this->isPaginate){
+      $apps = ApiModel::where('approve',false)
+                        ->where('app_type','app')
+                        ->paginate($this->pagiNum);
+      return $apps;
+    }
     $apps = ApiModel::where('approve',false)
                       ->where('app_type','app')
                       ->get();
@@ -151,6 +185,12 @@ class ApiApp
 
   public function apiOauthApproval()
   {
+    if($this->isPaginate){
+      $apps = ApiModel::where('approve',false)
+                        ->where('app_type','oauth')
+                        ->paginate($this->pagiNum);
+      return $apps;
+    }
     $apps = ApiModel::where('approve',false)
                       ->where('app_type','oauth')
                       ->get();
@@ -208,6 +248,12 @@ class ApiApp
 
   public function apiBlockOauthLists()
   {
+    if($this->isPaginate){
+      $apiOauth = ApiModel::where('block',true)
+                          ->where('app_type','oauth')
+                          ->paginate($this->pagiNum);
+      return $apiOauth;
+    }
     $apiOauth = ApiModel::where('block',true)
                         ->where('app_type','oauth')
                         ->get();
@@ -222,16 +268,56 @@ class ApiApp
 
   public function apiAppLive()
   {
+    if($this->isPaginate){
+      $apiApps = ApiModel::where('approve',true)
+                          ->where('app_type','app')
+                          ->paginate($this->pagiNum);
+      return $apiApps;
+    }
     $apiApps = ApiModel::where('approve',true)
                         ->where('app_type','app')
                         ->get();
     return $apiApps;
   }
 
+  public function apiAppDeactivated()
+  {
+    if($this->isPaginate){
+      $apiApps = ApiModel::where('approve',true)
+                          ->where('active',false)
+                          ->paginate($this->pagiNum);
+      return $apiApps;
+    }
+    $apiApps = ApiModel::where('approve',true)
+                        ->where('active',false)
+                        ->get();
+    return $apiApps;
+  }
+
   public function apiOauthLive()
   {
+    if($this->isPaginate){
+      $apiOauth = ApiModel::where('approve',true)
+                          ->where('app_type','oauth')
+                          ->paginate($this->pagiNum);
+      return $apiOauth;
+    }
     $apiOauth = ApiModel::where('approve',true)
                         ->where('app_type','oauth')
+                        ->get();
+    return $apiOauth;
+  }
+
+  public function apiOauthDeactivated()
+  {
+    if($this->isPaginate){
+      $apiOauth = ApiModel::where('approve',true)
+                          ->where('active',false)
+                          ->paginate($this->pagiNum);
+      return $apiOauth;
+    }
+    $apiOauth = ApiModel::where('approve',true)
+                        ->where('active',false)
                         ->get();
     return $apiOauth;
   }
