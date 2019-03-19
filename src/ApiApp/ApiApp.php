@@ -207,12 +207,22 @@ class ApiApp
 
   public function apiAllApps()
   {
+    if($this->isPaginate){
+      $apiApps = ApiModel::where('app_type','app')
+                          ->paginate($this->pagiNum);
+      return $apiApps;
+    }
     $apiApps = ApiModel::where('app_type','app')->get();
     return $apiApps;
   }
 
   public function apiAllOauth()
   {
+    if($this->isPaginate){
+      $apiOauth = ApiModel::where('app_type','oauth')
+                          ->paginate($this->pagiNum);
+      return $apiOauth;
+    }
     $apiOauth = ApiModel::where('app_type','oauth')->get();
     return $apiOauth;
   }
@@ -240,6 +250,12 @@ class ApiApp
 
   public function apiBlockAppLists()
   {
+    if($this->isPaginate){
+      $apiApps = ApiModel::where('block',true)
+                          ->where('app_type','app')
+                          ->paginate($this->pagiNum);
+      return $apiApps;
+    }
     $apiApps = ApiModel::where('block',true)
                         ->where('app_type','app')
                         ->get();
