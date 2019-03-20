@@ -12,6 +12,16 @@ use Config;
 
 class Koauth
 {
+  protected $isPaginate = false;
+  protected $pagiNum;
+
+  public function paginate($num=15)
+  {
+    $this->isPaginate = true;
+    $this->pagiNum = $num;
+    return $this;
+  }
+
   public function checkApp(){
     // check api app
     $ApiApps = ApiModel::where('key',\Request::get(Config::get('kapi.oauth.key') ? Config::get('kapi.oauth.key') : 'kapi_key'))
@@ -105,6 +115,11 @@ class Koauth
   }
 
   public function authUserOauth($authUserID){
+    if($this->ispaginate){
+      $authUserOauth = OauthModel::where('auth_user',$authUserID)
+                                  ->paginate($this->pagiNum);
+      return $authUserOauth;
+    }
     $authUserOauth = OauthModel::where('auth_user',$authUserID)->get();
     return $authUserOauth;
   }
