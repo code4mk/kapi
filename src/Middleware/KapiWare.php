@@ -29,8 +29,8 @@ class KapiWare
 
 
         // check api app
-        $ApiApps = ApiModel::where('key',$request->header(Config::get('kapi.app.key') ? Config::get('kapi.app.key') : 'kapi_key'))
-                              ->where('secret',$request->header(Config::get('kapi.app.secret') ? Config::get('kapi.app.secret') : 'kapi_secret'))
+        $ApiApps = ApiModel::where('key',$request->header(Config::get('kapi.app.key') ? Config::get('kapi.app.key') : 'kapi-key'))
+                              ->where('secret',$request->header(Config::get('kapi.app.secret') ? Config::get('kapi.app.secret') : 'kapi-secret'))
                               ->where('block',false)
                               ->where('active',true)
                               ->where('app_type','app')
