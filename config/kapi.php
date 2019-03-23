@@ -13,15 +13,15 @@ return [
 
   // api purpose <header> <axios|guzzle>
   "app" => [
-    "key" => "client_key",
-    "secret" => "client_secret"
+    "key" => "client-key",
+    "secret" => "client-secret"
   ],
 
   // oauth token purpose <query> <axios|guzzle>
   "oauth" => [
-    "key" => "client_key",
-    "secret" => "client_secret",
-    "redirect" => "redirect_uri"
+    "key" => "client-key",
+    "secret" => "client-secret",
+    "redirect" => "redirect-uri"
   ],
   //  approval (boolean value)
   "approval" => false,
