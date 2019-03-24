@@ -53,8 +53,8 @@ class Koauth
 
   public function appInfo(){
     // check api app
-    $appInfo = ApiModel::where('key',\Request::get(Config::get('kapi.oauth.key') ? Config::get('kapi.app.key') : 'kapi_key'))
-                          ->where('secret',\Request::get(Config::get('kapi.oauth.secret') ? Config::get('kapi.app.secret') : 'kapi_secret'))
+    $appInfo = ApiModel::where('key',\Request::get(Config::get('kapi.oauth.key') ? Config::get('kapi.oauth.key') : 'kapi_key'))
+                          ->where('secret',\Request::get(Config::get('kapi.oauth.secret') ? Config::get('kapi.oauth.secret') : 'kapi_secret'))
                           ->where('block',false)
                           ->where('active',true)
                           ->where(function ($query){
