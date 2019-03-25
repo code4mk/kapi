@@ -106,6 +106,7 @@ class ApiApp
     if($this->isPaginate){
       $UserApiApp = ApiModel::where('user',$userID)
                           ->where('app_type','app')
+                          ->orderBy('id', 'desc')
                           ->paginate($this->pagiNum);
       return $UserApiApp;
     }
