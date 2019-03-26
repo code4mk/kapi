@@ -13,7 +13,7 @@ class ApiApp
   protected $isOutput = false;
   protected $isPaginate = false;
   protected $pagiNum;
-  protected $orderType = desc;
+  protected $orderType = 'desc';
 
 
   public function __construct()
@@ -40,7 +40,7 @@ class ApiApp
 
   public function orderAsc()
   {
-    $this->orderType = true;
+    $this->orderType = 'asc';
     return $this;
   }
 
