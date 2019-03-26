@@ -13,12 +13,12 @@ class ApiApp
   protected $isOutput = false;
   protected $isPaginate = false;
   protected $pagiNum;
+  protected $orderType = desc;
 
 
   public function __construct()
   {
     $this->oauth('app');
-
   }
   public function oauth($status = 'oauth')
   {
@@ -35,6 +35,12 @@ class ApiApp
   {
     $this->isPaginate = true;
     $this->pagiNum = $num;
+    return $this;
+  }
+
+  public function orderAsc()
+  {
+    $this->orderType = true;
     return $this;
   }
 
@@ -106,12 +112,13 @@ class ApiApp
     if($this->isPaginate){
       $UserApiApp = ApiModel::where('user',$userID)
                           ->where('app_type','app')
-                          ->orderBy('id', 'desc')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $UserApiApp;
     }
     $UserApiApp = ApiModel::where('user',$userID)
                         ->where('app_type','app')
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $UserApiApp;
   }
@@ -121,11 +128,13 @@ class ApiApp
     if($this->isPaginate){
       $UserApiAppOauth = ApiModel::where('user',$userID)
                           ->where('app_type','oauth')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $UserApiAppOauth;
     }
     $UserApiAppOauth = ApiModel::where('user',$userID)
                         ->where('app_type','oauth')
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $UserApiAppOauth;
   }
@@ -175,12 +184,14 @@ class ApiApp
     if($this->isPaginate){
       $apps = ApiModel::where('approve',false)
                         ->where('app_type','app')
+                        ->orderBy('id', $this->orderType)
                         ->paginate($this->pagiNum);
       return $apps;
     }
     $apps = ApiModel::where('approve',false)
                       ->where('app_type','app')
-                      ->get();
+                      ->orderBy('id', $this->orderType)
+                      ->get()
     return $apps;
   }
 
@@ -189,11 +200,13 @@ class ApiApp
     if($this->isPaginate){
       $apps = ApiModel::where('approve',false)
                         ->where('app_type','oauth')
+                        ->orderBy('id', $this->orderType)
                         ->paginate($this->pagiNum);
       return $apps;
     }
     $apps = ApiModel::where('approve',false)
                       ->where('app_type','oauth')
+                      ->orderBy('id', $this->orderType)
                       ->get();
     return $apps;
   }
@@ -210,10 +223,13 @@ class ApiApp
   {
     if($this->isPaginate){
       $apiApps = ApiModel::where('app_type','app')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiApps;
     }
-    $apiApps = ApiModel::where('app_type','app')->get();
+    $apiApps = ApiModel::where('app_type','app')
+                        ->orderBy('id', $this->orderType)
+                        ->get();
     return $apiApps;
   }
 
@@ -221,10 +237,13 @@ class ApiApp
   {
     if($this->isPaginate){
       $apiOauth = ApiModel::where('app_type','oauth')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiOauth;
     }
-    $apiOauth = ApiModel::where('app_type','oauth')->get();
+    $apiOauth = ApiModel::where('app_type','oauth')
+                        ->orderBy('id', $this->orderType)
+                        ->get();
     return $apiOauth;
   }
 
@@ -254,11 +273,13 @@ class ApiApp
     if($this->isPaginate){
       $apiApps = ApiModel::where('block',true)
                           ->where('app_type','app')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiApps;
     }
     $apiApps = ApiModel::where('block',true)
                         ->where('app_type','app')
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $apiApps;
   }
@@ -268,11 +289,13 @@ class ApiApp
     if($this->isPaginate){
       $apiOauth = ApiModel::where('block',true)
                           ->where('app_type','oauth')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiOauth;
     }
     $apiOauth = ApiModel::where('block',true)
                         ->where('app_type','oauth')
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $apiOauth;
   }
@@ -288,11 +311,13 @@ class ApiApp
     if($this->isPaginate){
       $apiApps = ApiModel::where('approve',true)
                           ->where('app_type','app')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiApps;
     }
     $apiApps = ApiModel::where('approve',true)
                         ->where('app_type','app')
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $apiApps;
   }
@@ -302,11 +327,13 @@ class ApiApp
     if($this->isPaginate){
       $apiApps = ApiModel::where('approve',true)
                           ->where('active',false)
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiApps;
     }
     $apiApps = ApiModel::where('approve',true)
                         ->where('active',false)
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $apiApps;
   }
@@ -316,11 +343,13 @@ class ApiApp
     if($this->isPaginate){
       $apiOauth = ApiModel::where('approve',true)
                           ->where('app_type','oauth')
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiOauth;
     }
     $apiOauth = ApiModel::where('approve',true)
                         ->where('app_type','oauth')
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $apiOauth;
   }
@@ -330,11 +359,13 @@ class ApiApp
     if($this->isPaginate){
       $apiOauth = ApiModel::where('approve',true)
                           ->where('active',false)
+                          ->orderBy('id', $this->orderType)
                           ->paginate($this->pagiNum);
       return $apiOauth;
     }
     $apiOauth = ApiModel::where('approve',true)
                         ->where('active',false)
+                        ->orderBy('id', $this->orderType)
                         ->get();
     return $apiOauth;
   }
