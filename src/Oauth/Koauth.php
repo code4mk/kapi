@@ -115,7 +115,7 @@ class Koauth
   }
 
   public function authUserOauth($authUserID){
-    if($this->ispaginate){
+    if($this->isPaginate){
       $authUserOauth = OauthModel::where('auth_user',$authUserID)
                                   ->paginate($this->pagiNum);
       return $authUserOauth;
