@@ -14,6 +14,8 @@ class Koauth
 {
   protected $isPaginate = false;
   protected $pagiNum;
+  protected $pagiNum;
+  protected $orderType = 'desc';
 
   public function paginate($num=15)
   {
@@ -22,9 +24,15 @@ class Koauth
     return $this;
   }
 
+  public function orderAsc()
+  {
+    $this->orderType = 'asc';
+    return $this;
+  }
+
   public function checkApp(){
     // check api app
-    $ApiApps = ApiModel::where('key',\Request::get(Config::get('kapi.oauth.key') ? Config::get('kapi.oauth.key') : 'kapi_key'))
+    $apiApps = ApiModel::where('key',\Request::get(Config::get('kapi.oauth.key') ? Config::get('kapi.oauth.key') : 'kapi_key'))
                           ->where('secret',\Request::get(Config::get('kapi.oauth.secret') ? Config::get('kapi.oauth.secret') : 'kapi_secret'))
                           //->where('redirect_uri',\Request::get(Config::get('kapi.oauth.redirect') ? Config::get('kapi.oauth.redirect') : 'kapi_redirect'))
                           ->where('block',false)
@@ -36,18 +44,18 @@ class Koauth
                           })
                           ->first();
 
-    if(empty($ApiApps)){
-      $App = [
+    if(empty($apiApps)){
+      $app = [
         "status" => false
       ];
-      return $App;
+      return $app;
     } else {
-      $App = [
-        "appID" => $ApiApps['id'],
-        "redirect" => $ApiApps['redirect_uri'],
+      $app = [
+        "appID" => $apiApps['id'],
+        "redirect" => $apiApps['redirect_uri'],
         "status" => true
       ];
-      return $App;
+      return $app;
     }
   }
 
@@ -117,10 +125,13 @@ class Koauth
   public function authUserOauth($authUserID){
     if($this->isPaginate){
       $authUserOauth = OauthModel::where('auth_user',$authUserID)
+                                  ->orderBy('id', $this->orderType)
                                   ->paginate($this->pagiNum);
       return $authUserOauth;
     }
-    $authUserOauth = OauthModel::where('auth_user',$authUserID)->get();
+    $authUserOauth = OauthModel::where('auth_user',$authUserID)
+                                ->orderBy('id', $this->orderType)
+                                ->get();
     return $authUserOauth;
   }
 
