@@ -191,7 +191,7 @@ class ApiApp
     $apps = ApiModel::where('approve',false)
                       ->where('app_type','app')
                       ->orderBy('id', $this->orderType)
-                      ->get()
+                      ->get();
     return $apps;
   }
 
