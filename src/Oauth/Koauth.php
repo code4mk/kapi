@@ -136,14 +136,11 @@ class Koauth
   }
 
   public function revoke($oauthID,$authUserID){
-    $authUserOauth = OauthModel::where('id',$oauthID)
+    $authUserOauth = OauthModel::where('kapi_app_id',$oauthID)
                                 ->where('auth_user',$authUserID)
-                                ->first();
-    $authUserOauth->delete();
-    return "done";
+                                ->delete();
   }
   public function revokeAll($authUserID){
     $authUserOauth = OauthModel::where('auth_user',$authUserID)->delete();
-    return "done";
   }
 }
