@@ -14,7 +14,6 @@ class Koauth
 {
   protected $isPaginate = false;
   protected $pagiNum;
-  protected $pagiNum;
   protected $orderType = 'desc';
 
   public function paginate($num=15)
